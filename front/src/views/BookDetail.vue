@@ -55,7 +55,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import API from '../services/api'
+import Api from '../services/Api'
 import useAuth from '../components/useAuth'
 
 const route = useRoute()
@@ -67,11 +67,11 @@ const { token, userId, isAdmin } = useAuth()
 const headers = { Authorization: `Bearer ${token.value}` }
 
 async function fetchBookDetails() {
-  const res = await API.get(`/books/${route.params.id}`)
+  const res = await Api.get(`/books/${route.params.id}`)
   book.value = res.data
 
   try {
-    const reviewRes = await API.get('/readbooks', { headers })
+    const reviewRes = await Api.get('/readbooks', { headers })
     userReview.value = reviewRes.data.find(r => r.bookId === Number(route.params.id)) || null
   } catch (err) {
     if (err.response?.status !== 404) console.error(err)
@@ -81,7 +81,7 @@ async function fetchBookDetails() {
 
 async function submitReview() {
   try {
-    await API.post('/readbooks', {
+    await Api.post('/readbooks', {
       bookId: Number(route.params.id),
       rating: rating.value,
       comment: comment.value
@@ -100,7 +100,7 @@ console.log("Removendo review com id =", id, "do usuário =", userId.value)
   if (!confirm('Tem certeza que deseja remover este comentário?')) return
 
   try {
-    await API.delete(`/readbooks/${id}`, { headers })
+    await Api.delete(`/readbooks/${id}`, { headers })
     await fetchBookDetails()
   } catch (error) {
     console.error('Erro ao remover livro lido:', error.response?.data || error.message)

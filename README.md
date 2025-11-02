@@ -1,17 +1,17 @@
-# 🗨️ **BookRatingSite**  
+# 🗨️ **BookRatingSite**
 
-Um site de avaliação de livros com frontend Vue.js, backend dotnet core, autenticação JWT, e PostgreSQL.  
+Um site de avaliação de livros com frontend Vue.js, backend dotnet core, autenticação JWT, e PostgreSQL.
 
 ---
 
-### 🚀 **Funcionalidades**  
+### 🚀 **Funcionalidades**
 
-- ✅ Autenticação de Usuários (Login/Registro com JWT & PostgreSQL)  
-- ✅ Sistema para usuários comentarem sobre os livros 
-- ✅ API Segura (dotnet core + PostgreSQL)  
+- ✅ Autenticação de Usuários (Login/Registro com JWT & PostgreSQL)
+- ✅ Sistema para usuários comentarem sobre os livros
+- ✅ Api Segura (dotnet core + PostgreSQL)
 - ✅ Sistema de gerenciamento de avaliação de livro com nota e comentário
 - ✅ Sistema de cargos de adminstração com funções de remover comentário e editar livros
-- ✅ Interface Simples & Responsiva  
+- ✅ Interface Simples & Responsiva
 
 ---
 
@@ -25,13 +25,13 @@ git clone https://github.com/Yuri-amaralsantos/bookRatingNetCore.git
 
 ### 2️⃣ **Configurar o Backend**
 
-cd JwtAuthApi
+cd bookApi
 dotnet restore
 
 #### **Alterar o connectionStrings no appsettings.json:**
 
 "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=bookDb;Username={usuário};Password={senha}"
+"DefaultConnection": "Host=localhost;Port=5432;Database=bookDb;Username={usuário};Password={senha}"
 },
 
 #### **Iniciar o backend:**
@@ -52,7 +52,6 @@ npm run dev
 Frontend: HTML, CSS, JavaScript, Vue.js, Axios,
 Backend: Dotnet, swagger, JWT
 Banco de Dados: PostgreSQL
-
 
 ---
 

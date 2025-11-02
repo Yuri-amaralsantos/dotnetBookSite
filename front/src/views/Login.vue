@@ -13,7 +13,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import API from '../services/api'
+import Api from '../services/Api'
 import useAuth from '../components/useAuth'
 
 
@@ -26,7 +26,7 @@ const { setToken } = useAuth()
 
 const login = async () => {
   try {
-    const res = await API.post('/auth/login', {
+    const res = await Api.post('/auth/login', {
       username: username.value,
       passwordHash: password.value,
     })

@@ -18,7 +18,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import useAuth from '../components/useAuth'
-import API from '../services/api' // o axios já está encapsulado aqui
+import Api from '../services/Api' 
 
 const { token } = useAuth()
 const books = ref([])
@@ -31,11 +31,11 @@ const headers = { Authorization: `Bearer ${token.value}` }
 
 onMounted(async () => {
   try {
-    const res = await API.get('/books')
+    const res = await Api.get('/books')
     books.value = res.data
     console.log('Livros carregados:', books.value)
 
-    const rbRes = await API.get('/readbooks', { headers }) // cuidado com letras maiúsculas
+    const rbRes = await Api.get('/readbooks', { headers }) 
     readBooks.value = rbRes.data
   } catch (error) {
     console.error('Erro ao carregar dados:', error)
@@ -50,13 +50,13 @@ async function addReadBook() {
   })
 
   try {
-    await API.post('/readbooks', {
+    await Api.post('/readbooks', {
       bookId: Number(bookId.value),
       rating: rating.value,
       comment: comment.value
     }, { headers })
 
-    const rbRes = await API.get('/readbooks', { headers })
+    const rbRes = await Api.get('/readbooks', { headers })
     readBooks.value = rbRes.data
 
     bookId.value = ''
@@ -72,8 +72,8 @@ async function removeReadBook(id) {
   if (!confirm('Tem certeza que deseja remover este comentário?')) return
 
   try {
-    await API.delete(`/readbooks/${id}`, { headers })
-    readBooks.value = (await API.get('/readbooks', { headers })).data
+    await Api.delete(`/readbooks/${id}`, { headers })
+    readBooks.value = (await Api.get('/readbooks', { headers })).data
   } catch (error) {
     console.error('Erro ao remover livro lido:', error.response?.data || error.message)
     alert('Erro ao remover livro.')

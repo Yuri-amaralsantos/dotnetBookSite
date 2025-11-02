@@ -20,14 +20,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import API from '../services/api'
+import Api from '../services/Api'
 import useAuth from '../components/useAuth'
 
 const books = ref([])
 const { userId } = useAuth()
 
 const fetchBooks = async () => {
-  const res = await API.get('/books')
+  const res = await Api.get('/books')
   books.value = res.data
 }
 

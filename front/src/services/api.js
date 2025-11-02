@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const API = axios.create({
-    baseURL: 'http://localhost:5167/api', // use HTTP sem o S
+const Api = axios.create({
+    baseURL: 'http://localhost:5167/Api', // use HTTP sem o S
 });
 
 // Adicionar token JWT nas requisições (se necessário futuramente)
-API.interceptors.request.use(config => {
+Api.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -13,4 +13,4 @@ API.interceptors.request.use(config => {
     return config;
 });
 
-export default API;
+export default Api;

@@ -142,7 +142,7 @@ input {
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import API from '../services/api'
+import Api from '../services/Api'
 import useAuth from '../components/useAuth'
 
 const { isAdmin } = useAuth()
@@ -157,18 +157,18 @@ const newBook = ref({ title: '', author: '', year: null })
 const editingBook = ref(null)
 
 const fetchBooks = async () => {
-  const res = await API.get('/books')
+  const res = await Api.get('/books')
   books.value = res.data
 }
 
 const createBook = async () => {
-  await API.post('/books', newBook.value)
+  await Api.post('/books', newBook.value)
   newBook.value = { title: '', author: '', year: null }
   fetchBooks()
 }
 
 const deleteBook = async (id) => {
-  await API.delete(`/books/${id}`)
+  await Api.delete(`/books/${id}`)
   fetchBooks()
 }
 
@@ -177,7 +177,7 @@ const editBook = (book) => {
 }
 
 const updateBook = async () => {
-  await API.put(`/books/${editingBook.value.id}`, editingBook.value)
+  await Api.put(`/books/${editingBook.value.id}`, editingBook.value)
   editingBook.value = null
   fetchBooks()
 }

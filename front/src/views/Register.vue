@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import API from '../services/api'
+import Api from '../services/Api'
 
 const username = ref('')
 const password = ref('')
@@ -20,7 +20,7 @@ const message = ref('')
 
 const register = async () => {
   try {
-    await API.post('/auth/register', {
+    await Api.post('/auth/register', {
       username: username.value,
       passwordHash: password.value,
     })
