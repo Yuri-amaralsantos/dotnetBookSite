@@ -6,7 +6,6 @@ namespace bookApi.Data
     public class AppDbContext : DbContext
     {
         public DbSet<ReadBook> ReadBooks { get; set; }
-        public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -19,17 +18,10 @@ namespace bookApi.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ReadBook>()
-                .HasOne(rb => rb.Book)
-                .WithMany(b => b.Reviews)
-                .HasForeignKey(rb => rb.BookId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<ReadBook>()
                 .HasOne(rb => rb.User)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(rb => rb.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
-
 }

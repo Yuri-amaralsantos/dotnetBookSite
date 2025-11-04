@@ -13,7 +13,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Api from '../services/Api'
+import Api from '../services/api'
 import useAuth from '../components/useAuth'
 
 
@@ -42,7 +42,7 @@ const login = async () => {
 
 <style scoped>
 input {
-  max-width:400px;
+  max-width: 400px;
   margin: 20px;
 }
 </style>

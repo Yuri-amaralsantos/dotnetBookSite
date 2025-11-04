@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "vueCompilerOptions": {
+    "globalTypesPath": "node_modules/vue/macros-global.d.ts"
+  }
+}

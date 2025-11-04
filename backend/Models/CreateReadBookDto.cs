@@ -1,12 +1,9 @@
 namespace bookApi.DTOs
 {
-    public class ReadBookDto
+    public class CreateReadBookDto
     {
-        public int Id { get; set; }
         public string GoogleBookId { get; set; } = string.Empty;
         public int? Rating { get; set; }
         public string Comment { get; set; } = string.Empty;
-        public int UserId { get; set; }
-        public string UserName { get; set; } = string.Empty;
     }
 }

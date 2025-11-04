@@ -1,25 +1,24 @@
-<template>
-  <div id="app">
-    
+  <template>
+    <div id="app">
 
-    <nav>
-      <h1>BookReviews</h1>
-      <div class="nav-container">
-      <router-link v-if="!isAuthenticated" to="/login">Login</router-link> 
-      <router-link v-if="!isAuthenticated" to="/register">Registrar</router-link> 
-      <router-link v-if="isAuthenticated" to="/books">Livros</router-link> 
-      <router-link v-if="isAuthenticated" to="/mybooks">Perfil</router-link>
-      <router-link v-if="isAuthenticated && isAdmin" to="/admin/books">Gerenciar Livros</router-link>
-      </div> 
-      <div class="nav-container">
-      <span v-if="isAuthenticated">Olá, {{ userName }}!</span>
-      <button class="logout" v-if="isAuthenticated" @click="logout">Sair</button>
-      </div>
-    </nav>
 
-    <router-view />
-  </div>
-</template>
+      <nav>
+        <h1>BookReviews</h1>
+        <div class="nav-container">
+          <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
+          <router-link v-if="!isAuthenticated" to="/register">Registrar</router-link>
+          <router-link v-if="isAuthenticated" to="/books">Livros</router-link>
+          <router-link v-if="isAuthenticated" to="/mybooks">Perfil</router-link>
+        </div>
+        <div class="nav-container">
+          <span v-if="isAuthenticated">Olá, {{ userName }}!</span>
+          <button class="logout" v-if="isAuthenticated" @click="logout">Sair</button>
+        </div>
+      </nav>
+
+      <router-view />
+    </div>
+  </template>
 
 <script setup>
 import useAuth from './components/useAuth'
@@ -27,11 +26,10 @@ import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 
 const router = useRouter()
-const {auth, } = useAuth()
+const { auth, } = useAuth()
 
 const isAuthenticated = computed(() => auth.isAuthenticated.value)
-const isAdmin = computed(() => auth.isAdmin.value)
-const userName = computed(() => auth.userName.value) 
+const userName = computed(() => auth.userName.value)
 
 const logout = () => {
   auth.clearToken()
@@ -40,7 +38,6 @@ const logout = () => {
 </script>
 
 <style>
-
 body {
   margin: 0;
   padding: 1rem;
@@ -49,7 +46,9 @@ body {
   color: #e0e0e0;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: #f5f5f5;
   font-weight: 600;
 }
@@ -75,8 +74,8 @@ nav a.router-link-exact-active {
   border-bottom: 2px solid #f5c518;
 }
 
-.logout{
-margin: 0 1rem;
+.logout {
+  margin: 0 1rem;
 }
 
 button {
@@ -93,7 +92,8 @@ button:hover {
   color: #121212;
 }
 
-input, textarea {
+input,
+textarea {
   background-color: #1e1e1e;
   border: 1px solid #333;
   color: #fff;
@@ -104,7 +104,7 @@ input, textarea {
 
 button[type="submit"] {
   background-color: #f5c518;
-  border:#f5c518;
+  border: #f5c518;
   color: #000;
   border: none;
   padding: 10px 20px;
@@ -114,7 +114,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color:rgb(156, 143, 93);
+  background-color: rgb(156, 143, 93);
 }
 
 ul {
@@ -143,5 +143,4 @@ img {
   align-items: center;
   max-width: 200px;
 }
-
 </style>

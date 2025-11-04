@@ -1,112 +1,72 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using bookApi.Models;
-using bookApi.Data;
-using bookApi.DTOs;
-using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
-    
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Linq;
+using bookApi.Data;
+using bookApi.Models;
+using bookApi.DTOs;
+
 [ApiController]
 [Route("Api/[controller]")]
+[Authorize]
 public class ReadBooksController : ControllerBase
 {
     private readonly AppDbContext _context;
 
-    public ReadBooksController(AppDbContext context) => _context = context;
-
-    [HttpGet]
-    [Authorize]
-    public async Task<ActionResult<IEnumerable<ReadBookDto>>> GetReadBooks()
+    public ReadBooksController(AppDbContext context)
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
-        var readBooks = await _context.ReadBooks
-            .Include(rb => rb.Book)
-            .Where(rb => rb.UserId == userId)
-            .Select(rb => new ReadBookDto
-            {
-                Id = rb.Id,
-                BookId = rb.BookId,
-                Rating = rb.Rating,
-                Comment = rb.Comment,
-                UserId = rb.UserId,
-                BookTitle = rb.Book.Title
-            })
-            .ToListAsync();
-
-        return Ok(readBooks);
+        _context = context;
     }
-
 
     [HttpPost]
-    [Authorize]
-    public async Task<IActionResult> AddReadBook(ReadBookDto dto)
+    public async Task<IActionResult> AddReview([FromBody] CreateReadBookDto dto)
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
-        var readBook = new ReadBook
+        if (string.IsNullOrWhiteSpace(dto.Comment) && dto.Rating == null)
         {
-            
-            UserId = userId,
-            BookId = dto.BookId,
+            return BadRequest(new { message = "Você deve fornecer pelo menos uma nota ou comentário." });
+        }
+
+        var review = new ReadBook
+        {
+            GoogleBookId = dto.GoogleBookId,
             Rating = dto.Rating,
-            Comment = dto.Comment
+            Comment = dto.Comment,
+            UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
         };
 
-        _context.ReadBooks.Add(readBook);
+        _context.ReadBooks.Add(review);
         await _context.SaveChangesAsync();
 
-        return Ok();
+        return Ok(new
+        {
+            review.Id,
+            review.GoogleBookId,
+            review.Rating,
+            review.Comment,
+            review.UserId
+        });
     }
 
-    [HttpDelete("{id}")]
-    [Authorize]
-    public async Task<IActionResult> DeleteReadBook(int id)
+
+    [HttpGet("book/{googleBookId}")]
+    public async Task<IActionResult> GetReviews(string googleBookId)
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var userIsAdmin = User.IsInRole("Admin");
-
-        var readBook = await _context.ReadBooks.FirstOrDefaultAsync(rb => rb.Id == id);
-
-        if (readBook == null)
-            return NotFound("Livro lido não encontrado.");
-
-        if (!userIsAdmin && readBook.UserId != userId)
-            return Forbid("Você não tem permissão para remover esta review.");
-
-        _context.ReadBooks.Remove(readBook);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    [HttpGet("book/{bookId}")]
-    [Authorize]
-    public async Task<IActionResult> GetUserReviewsForBook(int bookId)
-    {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
-        var readBooks = await _context.ReadBooks
-            .Where(rb => rb.UserId == userId && rb.BookId == bookId)
-            .Include(rb => rb.Book)
-            .Include(rb => rb.User)
-            .Select(rb => new ReadBookDto
+        var reviews = await _context.ReadBooks
+            .Include(r => r.User)
+            .Where(r => r.GoogleBookId == googleBookId)
+            .Select(r => new
             {
-                Id = rb.Id,
-                BookId = rb.BookId,
-                Rating = rb.Rating,
-                Comment = rb.Comment,
-                UserId = rb.UserId,
-                BookTitle = rb.Book.Title
+                r.Id,
+                r.GoogleBookId,
+                r.Rating,
+                r.Comment,
+                r.UserId,
+                UserName = r.User.Username
             })
             .ToListAsync();
 
-        if (!readBooks.Any())
-            return NotFound();
-
-        return Ok(readBooks);
+        return Ok(reviews);
     }
-
-
-
 }

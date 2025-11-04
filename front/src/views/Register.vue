@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import Api from '../services/Api'
+import Api from '../services/api'
 
 const username = ref('')
 const password = ref('')
@@ -33,7 +33,7 @@ const register = async () => {
 
 <style scoped>
 input {
-  max-width:400px;
+  max-width: 400px;
   margin: 20px;
 }
 
@@ -44,6 +44,6 @@ button {
   padding: 5px 10px;
   cursor: pointer;
   transition: 0.2s ease;
-  margin:1rem;
+  margin: 1rem;
 }
 </style>
