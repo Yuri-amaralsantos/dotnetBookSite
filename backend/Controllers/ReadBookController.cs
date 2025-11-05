@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using System.Linq;
 using bookApi.Data;
 using bookApi.Models;
+using System.Net.Http;
+using System.Text.Json;
 using bookApi.DTOs;
+
 
 [ApiController]
 [Route("Api/[controller]")]
@@ -14,10 +17,12 @@ using bookApi.DTOs;
 public class ReadBooksController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly HttpClient _httpClient;
 
-    public ReadBooksController(AppDbContext context)
+    public ReadBooksController(AppDbContext context, IHttpClientFactory httpClientFactory)
     {
         _context = context;
+        _httpClient = httpClientFactory.CreateClient();
     }
 
     [HttpPost]
@@ -47,6 +52,71 @@ public class ReadBooksController : ControllerBase
             review.Comment,
             review.UserId
         });
+    }
+
+   [HttpGet("user")]
+    public async Task<IActionResult> GetUserReviews()
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        var reviews = await _context.ReadBooks
+            .Include(r => r.User)
+            .Where(r => r.UserId == userId)
+            .OrderByDescending(r => r.ReadAt)
+            .ToListAsync();
+
+        var results = new List<object>();
+
+        foreach (var r in reviews)
+        {
+            // Buscar informações do livro na API do Google
+            var bookUrl = $"https://www.googleapis.com/books/v1/volumes/{r.GoogleBookId}";
+            var bookResponse = await _httpClient.GetAsync(bookUrl);
+
+            if (!bookResponse.IsSuccessStatusCode)
+            {
+                results.Add(new
+                {
+                    r.Id,
+                    r.GoogleBookId,
+                    r.Rating,
+                    r.Comment,
+                    r.ReadAt,
+                    Book = (object?)null
+                });
+                continue;
+            }
+
+            using var contentStream = await bookResponse.Content.ReadAsStreamAsync();
+            var jsonDoc = await JsonDocument.ParseAsync(contentStream);
+            var volumeInfo = jsonDoc.RootElement.GetProperty("volumeInfo");
+
+            var title = volumeInfo.TryGetProperty("title", out var titleProp) ? titleProp.GetString() : null;
+            var authors = volumeInfo.TryGetProperty("authors", out var authorsProp)
+                ? authorsProp.EnumerateArray().Select(a => a.GetString()).ToList()
+                : new List<string>();
+            var image = volumeInfo.TryGetProperty("imageLinks", out var imageProp)
+                && imageProp.TryGetProperty("thumbnail", out var thumbProp)
+                ? thumbProp.GetString()
+                : null;
+
+            results.Add(new
+            {
+                r.Id,
+                r.GoogleBookId,
+                r.Rating,
+                r.Comment,
+                r.ReadAt,
+                Book = new
+                {
+                    Title = title,
+                    Authors = authors,
+                    Image = image
+                }
+            });
+        }
+
+        return Ok(results);
     }
 
 
