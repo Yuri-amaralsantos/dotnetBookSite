@@ -1,5 +1,5 @@
 <template>
-  <div class="user-reviews">
+  <div class="container">
     <h2>Suas reviews</h2>
 
     <ul v-if="readBooks.length">
@@ -48,8 +48,11 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.user-reviews {
-  padding: 20px;
+.container {
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .review-item {

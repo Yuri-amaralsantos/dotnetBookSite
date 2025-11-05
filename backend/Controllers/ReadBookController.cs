@@ -69,7 +69,7 @@ public class ReadBooksController : ControllerBase
 
         foreach (var r in reviews)
         {
-            // Buscar informações do livro na API do Google
+         
             var bookUrl = $"https://www.googleapis.com/books/v1/volumes/{r.GoogleBookId}";
             var bookResponse = await _httpClient.GetAsync(bookUrl);
 

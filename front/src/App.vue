@@ -40,7 +40,7 @@ const logout = () => {
 <style>
 body {
   margin: 0;
-  padding: 1rem;
+  padding: 0;
   font-family: 'Poppins', sans-serif;
   background-color: #121212;
   color: #e0e0e0;
@@ -55,7 +55,7 @@ h3 {
 
 nav {
   background-color: #1c1c1c;
-  padding: 10px 20px;
+  padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

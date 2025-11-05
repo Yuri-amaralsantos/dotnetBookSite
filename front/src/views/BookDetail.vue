@@ -1,5 +1,5 @@
 <template>
-  <div v-if="book" class="book-detail-container">
+  <div v-if="book" class="container">
     <div class="book-header">
 
       <div class="book-info">
@@ -105,7 +105,7 @@ onMounted(fetchBook)
 </script>
 
 <style scoped>
-.book-detail-container {
+.container {
   padding: 0 40px;
   display: flex;
   flex-direction: column;
