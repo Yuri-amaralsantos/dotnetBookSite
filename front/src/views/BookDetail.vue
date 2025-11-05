@@ -1,20 +1,27 @@
 <template>
   <div v-if="book" class="book-detail-container">
     <div class="book-header">
-      <img :src="book.image" alt="Capa do livro" />
+
       <div class="book-info">
         <h2>{{ book.title }}</h2>
-        <p><strong>Autor:</strong> {{ book.authors?.join(', ') }}</p>
-        <p><strong>Publicado:</strong> {{ book.publishedDate }}</p>
+        <p>Autor:{{ book.authors?.join(', ') }}</p>
+        <p>Publicado: {{ book.publishedDate }}</p>
       </div>
+      <img :src="book.image" alt="Capa do livro" />
     </div>
 
     <form @submit.prevent="submitReview" class="review-form">
-      <div class="rating-circles">
-        <span v-for="n in 5" :key="n" :class="['circle', { selected: rating === n }]" @click="rating = n">{{ n }}</span>
+      <div class="rating-stars">
+        <span v-for="n in 5" :key="n" class="star" @click="setRating(n)">
+          <StarFilledIcon v-if="n <= rating" class="icon filled" />
+          <StarIcon v-else class="icon" />
+        </span>
       </div>
-      <textarea v-model="comment" placeholder="Comentário"></textarea>
-      <button type="submit">Enviar review</button>
+
+      <div class="comment">
+        <input v-model="comment" placeholder="Comentário"></input>
+        <button type="submit">Enviar review</button>
+      </div>
     </form>
 
     <div class="other-reviews">
@@ -22,7 +29,11 @@
       <ul v-if="reviews.length">
         <li v-for="r in reviews" :key="r.id" class="review-card">
           <p><b>{{ r.userName }}</b>: {{ r.comment }}</p>
-          <p>⭐ {{ r.rating }}/5</p>
+          <p>
+            <StarFilledIcon v-for="n in r.rating" :key="n" class="icon filled small" />
+            <StarIcon v-for="n in 5 - r.rating" :key="'empty-' + n" class="icon small" />
+            ({{ r.rating }}/5)
+          </p>
         </li>
       </ul>
       <p v-else>Nenhuma review ainda.</p>
@@ -35,6 +46,9 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import Api from '../services/api'
 import useAuth from '../components/useAuth'
+
+
+import { StarFilledIcon, StarIcon } from '@radix-icons/vue'
 
 const route = useRoute()
 const book = ref(null)
@@ -63,16 +77,21 @@ async function fetchBook() {
   }
 }
 
+function setRating(n) {
+  rating.value = n
+}
 
 async function submitReview() {
   try {
-    const resp = await Api.post('/ReadBooks', {
-      GoogleBookId: route.params.id,
-      Rating: rating.value || null,
-      Comment: comment.value
-    }, { headers })
-
-    console.log(resp)
+    await Api.post(
+      '/ReadBooks',
+      {
+        GoogleBookId: route.params.id,
+        Rating: rating.value,
+        Comment: comment.value
+      },
+      { headers }
+    )
 
     rating.value = 0
     comment.value = ''
@@ -84,3 +103,70 @@ async function submitReview() {
 
 onMounted(fetchBook)
 </script>
+
+<style scoped>
+.book-detail-container {
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.book-info h2 {
+  font-size: 40px;
+}
+
+.book-info p {
+  font-size: 14px;
+}
+
+.book-header {
+  gap: 30px;
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+input {
+  margin: 0;
+  height: 30px;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.star {
+  cursor: pointer;
+  margin-right: 4px;
+  transition: transform 0.2s ease;
+}
+
+.star:hover {
+  transform: scale(1.15);
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  color: #ccc;
+}
+
+.icon.filled {
+  color: gold;
+}
+
+.icon.small {
+  width: 20px;
+  height: 20px;
+}
+</style>
