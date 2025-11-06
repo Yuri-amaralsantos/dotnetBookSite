@@ -5,20 +5,26 @@
     <ul v-if="readBooks.length">
       <li v-for="r in readBooks" :key="r.id" class="review-item">
         <router-link :to="`/books/${r.googleBookId}`">
-          <div class="book-info">
-            <img v-if="r.book?.image" :src="r.book.image" alt="Capa do livro" class="thumb" />
-            <div>
-              <h3>{{ r.book?.title || 'Livro não encontrado' }}</h3>
-              <p class="authors">{{ r.book?.authors?.join(', ') }}</p>
+          <div class="review-card">
+            <div class="book-info">
+              <img v-if="r.book?.image" :src="r.book.image" alt="Capa do livro" class="thumb" />
+              <div>
+                <h3>{{ r.book?.title || 'Livro não encontrado' }}</h3>
+                <p class="authors">{{ r.book?.authors?.join(', ') }}</p>
+                <div class="stars">
+                  <StarFilledIcon v-for="n in r.rating" :key="n" class="icon filled small" />
+                  <StarIcon v-for="n in 5 - r.rating" :key="'empty-' + n" class="icon small" />
+                </div>
+              </div>
+
             </div>
-          </div>
 
-          <div class="stars">
-            <StarFilledIcon v-for="n in r.rating" :key="n" class="icon filled small" />
-            <StarIcon v-for="n in 5 - r.rating" :key="'empty-' + n" class="icon small" />
-          </div>
 
-          <p class="comment">{{ r.comment }}</p>
+            <div class="comment">
+              <p>{{ r.comment }}</p>
+            </div>
+
+          </div>
         </router-link>
       </li>
     </ul>
@@ -30,7 +36,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import Api from '../services/api'
-import useAuth from '../components/useAuth'
+import useAuth from '../services/useAuth'
 import { StarFilledIcon, StarIcon } from '@radix-icons/vue'
 
 const readBooks = ref([])
@@ -55,14 +61,29 @@ onMounted(async () => {
   gap: 20px;
 }
 
+.review-card {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
 .review-item {
   margin-bottom: 25px;
   padding-bottom: 15px;
+  color: var(--color-light-text);
+}
+
+.review-item h3 {
+  color: var(--color-light-text);
+}
+
+.review-item p {
+  color: var(--color-bg);
 }
 
 .review-item a {
   text-decoration: none;
-  color: inherit;
+  color: var(--color-light-text);
   display: block;
 }
 
@@ -73,8 +94,8 @@ onMounted(async () => {
 }
 
 .thumb {
-  width: 60px;
-  height: 90px;
+  width: 150px;
+  height: 200px;
   object-fit: cover;
   border-radius: 6px;
 }
@@ -101,7 +122,15 @@ onMounted(async () => {
 }
 
 .comment {
+  width: 100%;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #d8e7e7;
+}
+
+.comment p {
+  font-weight: 600;
+  color: var(--color-secondary);
   font-size: 14px;
-  color: white;
 }
 </style>

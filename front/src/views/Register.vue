@@ -32,18 +32,13 @@ const register = async () => {
 </script>
 
 <style scoped>
+h2 {
+  margin-left: 30px;
+}
+
+
 input {
   max-width: 400px;
   margin: 20px;
-}
-
-button {
-  background-color: transparent;
-  border: 1px solid #f5c518;
-  color: #f5c518;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: 0.2s ease;
-  margin: 1rem;
 }
 </style>

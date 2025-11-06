@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import useAuth from '../components/useAuth'
+import useAuth from '../services/useAuth'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import BookList from '../views/BookList.vue'

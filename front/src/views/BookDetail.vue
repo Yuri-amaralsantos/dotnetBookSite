@@ -28,12 +28,19 @@
       <h3>Outras reviews</h3>
       <ul v-if="reviews.length">
         <li v-for="r in reviews" :key="r.id" class="review-card">
-          <p><b>{{ r.userName }}</b>: {{ r.comment }}</p>
-          <p>
-            <StarFilledIcon v-for="n in r.rating" :key="n" class="icon filled small" />
-            <StarIcon v-for="n in 5 - r.rating" :key="'empty-' + n" class="icon small" />
-            ({{ r.rating }}/5)
-          </p>
+          <div class="review-info">
+            <p><b>{{ r.userName }}</b></p>
+            <p>
+              <StarFilledIcon v-for="n in r.rating" :key="n" class="icon filled small" />
+              <StarIcon v-for="n in 5 - r.rating" :key="'empty-' + n" class="icon small" />
+              ({{ r.rating }}/5)
+            </p>
+          </div>
+
+          <div class="review-comment">
+            <p>{{ r.comment }}</p>
+          </div>
+
         </li>
       </ul>
       <p v-else>Nenhuma review ainda.</p>
@@ -45,7 +52,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import Api from '../services/api'
-import useAuth from '../components/useAuth'
+import useAuth from '../services/useAuth'
 
 
 import { StarFilledIcon, StarIcon } from '@radix-icons/vue'
@@ -158,7 +165,7 @@ input {
 .icon {
   width: 28px;
   height: 28px;
-  color: #ccc;
+  color: var(--color-secondary);
 }
 
 .icon.filled {
@@ -168,5 +175,30 @@ input {
 .icon.small {
   width: 20px;
   height: 20px;
+}
+
+.review-card {
+  width: 100%;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.review-info p {
+  color: white;
+}
+
+.review-comment {
+  background-color: #d8e7e7;
+  padding-left: 1rem;
+  border-radius: 8px;
+}
+
+.review-comment p {
+  font-weight: 600;
+  color: var(--color-secondary);
+  font-size: 14px;
 }
 </style>

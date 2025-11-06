@@ -14,7 +14,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Api from '../services/api'
-import useAuth from '../components/useAuth'
+import useAuth from '../services/useAuth'
 
 
 const router = useRouter()
@@ -41,6 +41,10 @@ const login = async () => {
 </script>
 
 <style scoped>
+h2 {
+  margin-left: 30px;
+}
+
 input {
   max-width: 400px;
   margin: 20px;

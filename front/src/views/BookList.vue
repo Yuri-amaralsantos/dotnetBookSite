@@ -13,7 +13,7 @@
         <router-link :to="`/books/${book.id}`" class="book-card">
           <img :src="book.image" alt="Capa" />
 
-          <!-- Mostra o título cortado, mas o completo no hover -->
+
           <p class="book-title" :title="book.title">
             {{ truncateTitle(book.title) }}
           </p>
@@ -66,20 +66,11 @@ fetchBooks()
   gap: 10px;
 }
 
-.book-search input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  background-color: #2a2a2a;
-  color: white;
-  outline: none;
-}
+
 
 .search-btn {
-  background-color: gold;
+  background-color: var(--color-primary);
   border: none;
-  border-radius: 8px;
   padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -88,44 +79,44 @@ fetchBooks()
   justify-content: center;
 }
 
-.search-btn:hover {
-  background-color: #e0b700;
-}
 
 .icon {
   width: 20px;
   height: 20px;
-  color: black;
+  color: var(--color-light-text);
 }
 
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: center;
   gap: 20px;
   list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1300px;
 }
 
-.book-card {
-  background-color: #1e1e1e;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  color: #fff;
-  display: block;
+.book-card:hover {
+  opacity: 80%;
 }
 
 .book-card img {
-  width: 100%;
+  width: 200px;
+  height: 250px;
+  object-fit: cover;
   border-radius: 4px;
+  background-color: #ddd;
 }
 
-
 .book-title {
+  color: #e0960c;
   margin-top: 8px;
   font-weight: 600;
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
+  text-decoration: none;
   text-overflow: ellipsis;
 }
 </style>
