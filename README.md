@@ -51,16 +51,16 @@ Os livros são obtidos diretamente da API do Google Books, permitindo busca e ex
 ## 🛠️ **Como Instalar**
 
 ### **Clonar o Repositório**
-
+```bash
 git clone https://github.com/Yuri-amaralsantos/bookRatingNetCore.git
-
+``` 
 ---
 
 ### **Configurar o Backend**
-
+```bash
 cd backend
 dotnet restore
-
+``` 
 ---
 
 ### **Usar o arquivo **`docker-compose.yml`** já configurado no projeoto**:
@@ -78,16 +78,17 @@ docker-compose up -d
 },
 
 #### **Iniciar o backend:**
-
+```bash
 dotnet run
-
+```
 ---
 
 ### **Configurar o Frontend**
-
+```bash
 cd front
 npm run install
 npm run dev
+``` 
 
 ---
 
