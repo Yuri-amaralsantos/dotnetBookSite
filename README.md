@@ -14,15 +14,10 @@ Os livros são obtidos diretamente da API do Google Books, permitindo busca e ex
 
 ✅ Autenticação de Usuários (Login/Registro com JWT + PostgreSQL).
 
-✅ Sistema Administrativo, com funções para:
-
-Remover comentários inapropriados
-
-Editar informações de livros
-
 ✅ API Segura (ASP.NET Core + JWT).
 
-✅ Interface Simples, Responsiva e Intuitiva.
+✅ Interface simples e intuitiva.
+
 ---
 
 ## 🛠️ **Como Instalar**
