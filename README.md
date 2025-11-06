@@ -1,39 +1,77 @@
-# 🗨️ **BookRatingSite**
+# BookRatingSite
+
+## Descrição
 
 Um site de avaliação de livros com frontend em Vue.js, backend em .NET Core, autenticação JWT, e banco de dados PostgreSQL.
 Os livros são obtidos diretamente da API do Google Books, permitindo busca e exibição detalhada de informações.
 
-🚀 Funcionalidades
+## Tecnologias Utilizadas
 
-✅ Busca de Livros integrada à Google Books API
+### Frontend:
+
+* Vue.js
+
+* HTML, CSS, JavaScript
+
+* Axios
+
+### Backend:
+
+* .NET Core
+
+* Swagger
+
+* JWT Authentication
+
+### Banco de Dados:
+
+* PostgreSQL
+
+### APIs Externas:
+
+* Google Books API
+
+## Funcionalidades
+
+* Busca de Livros integrada à Google Books API
 , permitindo encontrar títulos, autores e descrições.
 
-✅ Avaliações de Livros, com notas e comentários personalizados.
+* Avaliações de Livros, com notas e comentários personalizados.
 
-✅ Sistema de Reviews de Usuários, onde cada usuário pode comentar e avaliar diferentes livros.
+* Sistema de Reviews de livros, onde cada usuário pode comentar e avaliar diferentes livros.
 
-✅ Autenticação de Usuários (Login/Registro com JWT + PostgreSQL).
+* Autenticação de Usuários (Login/Registro com JWT + PostgreSQL).
 
-✅ API Segura (ASP.NET Core + JWT).
+* API Segura (ASP.NET Core + JWT).
 
-✅ Interface simples e intuitiva.
+* Interface simples e intuitiva.
 
 ---
 
 ## 🛠️ **Como Instalar**
 
-### 1️⃣ **Clonar o Repositório**
+### **Clonar o Repositório**
 
 git clone https://github.com/Yuri-amaralsantos/bookRatingNetCore.git
 
 ---
 
-### 2️⃣ **Configurar o Backend**
+### **Configurar o Backend**
 
-cd bookApi
+cd backend
 dotnet restore
 
-#### **Alterar o connectionStrings no appsettings.json:**
+---
+
+### **Usar o arquivo **`docker-compose.yml`** já configurado no projeoto**:
+
+```bash
+docker-compose up -d
+``` 
+
+### OU
+
+#### **Altere o connectionStrings no appsettings.json para configurar o seu banco local:**
 
 "ConnectionStrings": {
 "DefaultConnection": "Host=localhost;Port=5432;Database=bookDb;Username={usuário};Password={senha}"
@@ -45,47 +83,24 @@ dotnet run
 
 ---
 
-### 3️⃣ **Configurar o Frontend**
+### **Configurar o Frontend**
 
 cd front
+npm run install
 npm run dev
 
 ---
 
-## 🏗️ Tecnologias Utilizadas
-
-### Frontend:
-
-Vue.js
-
-HTML, CSS, JavaScript
-
-Axios
-
-### Backend:
-
-.NET Core
-
-Swagger
-
-JWT Authentication
-
-### Banco de Dados:
-
-PostgreSQL
-
-### APIs Externas:
-
-Google Books API
-
----
 
 ## 🤝 **Contribuição**
 
 Contribuições são bem-vindas! Sinta-se à vontade para enviar issues e pull requests.
 
+
 ---
 
-## 📜 **Licença**
+## 👨‍💻 Autor
 
-Este projeto está licenciado sob a Licença MIT
+Desenvolvido por **Yuri Amaral Santos**
+📧 E-mail: [yuri.a.santos12@gmail.com](mailto:yuri.a.santos12@gmail.com)
+🌐 Portfolio: [https://yuri-amaral-santos-portfolio.vercel.app](https://yuri-amaral-santos-portfolio.vercel.app)
